@@ -10,7 +10,7 @@
     .wrap{max-width:960px;margin:0 auto;padding:20px}.card{background:var(--card);border:1px solid var(--border);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.06);padding:22px;margin-bottom:18px}
     h1,h2{margin-top:0}.sub{color:var(--sub);font-size:.98rem}.tabs,.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
     button,input,select{font:inherit}.tabBtn,button{border:none;border-radius:12px;padding:12px 16px;cursor:pointer;font-weight:700}.tabBtn.active,.primary{background:var(--accent);color:#fff}.tabBtn:not(.active),.secondary{background:#e5ecf8;color:#1e3a8a}.ghost{background:#eef2f7;color:#334155}
-    .hidden{display:none}.panel{display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.vocabGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}@media(max-width:700px){.grid,.vocabGrid{grid-template-columns:1fr}.question{font-size:2rem}}
+    .panel{display:block}.hidden{display:none !important}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.vocabGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}@media(max-width:700px){.grid,.vocabGrid{grid-template-columns:1fr}.question{font-size:2rem}}
     label{display:block;font-weight:700;margin-bottom:6px} input,select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff}
     .vocabItem{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#fff}.vocabHeader{width:100%;text-align:left;background:var(--soft);color:var(--text);border-radius:0;padding:16px;display:flex;justify-content:space-between;align-items:center;font-size:1.1rem}.vocabHeader span:last-child{color:var(--sub);font-size:.95rem}
     .vocabBody{display:none;padding:16px;border-top:1px solid var(--border)}.vocabItem.open .vocabBody{display:block}.meaningBlock{margin-bottom:10px}.meaningLabel{font-weight:700;color:#1e3a8a;margin-bottom:2px}
@@ -24,8 +24,8 @@
     <h1>語彙カードと読みクイズ</h1>
     <div class="sub">語彙をタップすると、読み方と意味が開きます。下のタブで読みクイズにも切り替えられます。</div>
     <div class="tabs">
-      <button class="tabBtn active" data-target="vocabPanel">語彙カード</button>
-      <button class="tabBtn" data-target="quizPanel">読みクイズ</button>
+      <button class="tabBtn active" data-target="vocabPanel">語彙を見る</button>
+      <button class="tabBtn" data-target="quizPanel">読みクイズをする</button>
     </div>
   </div>
 
@@ -131,7 +131,7 @@ const WORDS = [
 ];
 
 const tabBtns=document.querySelectorAll('.tabBtn'); const panels=document.querySelectorAll('.panel');
-tabBtns.forEach(btn=>btn.addEventListener('click',()=>{tabBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');panels.forEach(p=>p.classList.add('hidden'));document.getElementById(btn.dataset.target).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}));
+tabBtns.forEach(btn=>btn.addEventListener('click',()=>{tabBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');panels.forEach(p=>p.classList.add('hidden'));const target=document.getElementById(btn.dataset.target);target.classList.remove('hidden');target.scrollIntoView({behavior:'smooth',block:'start'});}));
 
 const vocabGrid=document.getElementById('vocabGrid');
 function renderVocab(list){vocabGrid.innerHTML=''; list.forEach((w,i)=>{const div=document.createElement('div'); div.className='vocabItem'; div.innerHTML=`<button class="vocabHeader" type="button"><span>${i+1}. ${w.kanji}</span><span>タップでひらく</span></button><div class="vocabBody"><div class="meaningBlock"><div class="meaningLabel">読み</div><div>${w.reading}</div></div><div class="meaningBlock"><div class="meaningLabel">やさしい日本語</div><div>${w.jp}</div></div><div class="meaningBlock"><div class="meaningLabel">中国語</div><div>${w.zh}</div></div><div class="meaningBlock"><div class="meaningLabel">ベトナム語</div><div>${w.vi}</div></div><div class="meaningBlock"><div class="meaningLabel">英語</div><div>${w.en}</div></div></div>`; div.querySelector('.vocabHeader').addEventListener('click',()=>div.classList.toggle('open')); vocabGrid.appendChild(div);});}
@@ -154,4 +154,3 @@ startBtn.addEventListener('click',startQuizFromSettings);checkBtn.addEventListen
 </script>
 </body>
 </html>
-
