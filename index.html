@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>漢字の読み方クイズ</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --sub: #6b7280;
+      --accent: #2563eb;
+      --accent2: #1d4ed8;
+      --ok: #15803d;
+      --ng: #b91c1c;
+      --border: #dbe3f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: 1.7rem;
+      margin: 0 0 8px;
+    }
+    .sub {
+      color: var(--sub);
+      font-size: 0.98rem;
+      margin-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: 1fr; }
+      .question { font-size: 2rem; }
+    }
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    input, select, button {
+      font: inherit;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+    }
+    .questionBox {
+      text-align: center;
+      padding: 16px 10px;
+      background: #f8fbff;
+      border: 1px solid #dceaff;
+      border-radius: 18px;
+      margin: 18px 0;
+    }
+    .questionLabel {
+      color: var(--sub);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+    .question {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--sub);
+      font-size: 0.95rem;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .primary:hover { background: var(--accent2); }
+    .secondary {
+      background: #e5ecf8;
+      color: #1e3a8a;
+    }
+    .ghost {
+      background: #eef2f7;
+      color: #334155;
+    }
+    .feedback {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      display: none;
+    }
+    .ok { background: #ecfdf3; color: var(--ok); border: 1px solid #bbf7d0; display: block; }
+    .ng { background: #fef2f2; color: var(--ng); border: 1px solid #fecaca; display: block; }
+    .resultList {
+      margin-top: 10px;
+      padding-left: 1.2em;
+    }
+    .muted {
+      color: var(--sub);
+      font-size: 0.92rem;
+    }
+    .hidden { display: none; }
+    .score {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin: 6px 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>漢字の読み方クイズ</h1>
+      <div class="sub">QRコードから開いて、スマホで1問ずつ練習できます。</div>
+      <div class="grid">
+        <div>
+          <label for="studentId">学籍番号</label>
+          <input id="studentId" type="text" placeholder="例：20260001" />
+        </div>
+        <div>
+          <label for="studentName">名前</label>
+          <input id="studentName" type="text" placeholder="例：すずき はなこ" />
+        </div>
+      </div>
+      <div class="grid" style="margin-top:12px;">
+        <div>
+          <label for="questionCount">問題数</label>
+          <select id="questionCount">
+            <option value="10">10問</option>
+            <option value="20">20問</option>
+            <option value="50">50問</option>
+          </select>
+        </div>
+        <div>
+          <label for="mode">出題方法</label>
+          <select id="mode">
+            <option value="random">ランダム</option>
+            <option value="fixed">1番から順番</option>
+          </select>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="primary" id="startBtn">はじめる</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="quizCard">
+      <div class="meta">
+        <div id="studentInfo">学籍番号：　／　名前：</div>
+        <div id="progress">第1問</div>
+      </div>
+
+      <div class="questionBox">
+        <div class="questionLabel">次のことばの読みを、ひらがなで答えましょう。</div>
+        <div class="question" id="questionText">展望</div>
+      </div>
+
+      <label for="answerInput">こたえ</label>
+      <input id="answerInput" type="text" placeholder="ひらがなで入力" autocomplete="off" />
+      <div class="muted">※ ひらがなで入力してください。</div>
+
+      <div class="controls">
+        <button class="primary" id="checkBtn">答え合わせ</button>
+        <button class="secondary hidden" id="nextBtn">次の問題へ</button>
+        <button class="ghost" id="restartBtn">最初に戻る</button>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="card hidden" id="resultCard">
+      <h2 style="margin-top:0;">結果</h2>
+      <div id="resultStudent"></div>
+      <div class="score" id="scoreText"></div>
+      <div class="muted">まちがえた問題は下で確認できます。</div>
+      <ol class="resultList" id="mistakeList"></ol>
+      <div class="controls">
+        <button class="primary" id="retryWrongBtn">まちがえた問題だけもう一度</button>
+        <button class="secondary" id="newQuizBtn">新しくやり直す</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const WORDS = [
+      { kanji: "展望", reading: "てんぼう" },
+      { kanji: "公表", reading: "こうひょう" },
+      { kanji: "探究", reading: "たんきゅう" },
+      { kanji: "分析", reading: "ぶんせき" },
+      { kanji: "考察", reading: "こうさつ" },
+      { kanji: "再構築", reading: "さいこうちく" },
+      { kanji: "機会", reading: "きかい" },
+      { kanji: "指摘", reading: "してき" },
+      { kanji: "依存", reading: "いぞん" },
+      { kanji: "陥る", reading: "おちいる" },
+      { kanji: "汎用的", reading: "はんようてき" },
+      { kanji: "直感的", reading: "ちょっかんてき" },
+      { kanji: "普及", reading: "ふきゅう" },
+      { kanji: "機関", reading: "きかん" },
+      { kanji: "制御", reading: "せいぎょ" },
+      { kanji: "状況", reading: "じょうきょう" },
+      { kanji: "拡大", reading: "かくだい" },
+      { kanji: "同時", reading: "どうじ" },
+      { kanji: "課題", reading: "かだい" },
+      { kanji: "向上", reading: "こうじょう" },
+      { kanji: "可能性", reading: "かのうせい" },
+      { kanji: "構成", reading: "こうせい" },
+      { kanji: "推論", reading: "すいろん" },
+      { kanji: "メタ認知", reading: "めたにんち" },
+      { kanji: "任せる", reading: "まかせる" },
+      { kanji: "成果", reading: "せいか" },
+      { kanji: "長期的", reading: "ちょうきてき" },
+      { kanji: "学力", reading: "がくりょく" },
+      { kanji: "遂行", reading: "すいこう" },
+      { kanji: "認知", reading: "にんち" },
+      { kanji: "怠惰", reading: "たいだ" },
+      { kanji: "無関心", reading: "むかんしん" },
+      { kanji: "逆転", reading: "ぎゃくてん" },
+      { kanji: "教育的", reading: "きょういくてき" },
+      { kanji: "意図的", reading: "いとてき" },
+      { kanji: "最適", reading: "さいてき" },
+      { kanji: "自己調整", reading: "じこちょうせい" },
+      { kanji: "対話型", reading: "たいわがた" },
+      { kanji: "協働", reading: "きょうどう" },
+      { kanji: "知識深化", reading: "ちしきしんか" },
+      { kanji: "議論力", reading: "ぎろんりょく" },
+      { kanji: "可視化", reading: "かしか" },
+      { kanji: "補完", reading: "ほかん" },
+      { kanji: "単独", reading: "たんどく" },
+      { kanji: "達成", reading: "たっせい" },
+      { kanji: "評価項目", reading: "ひょうかこうもく" },
+      { kanji: "整合性", reading: "せいごうせい" },
+      { kanji: "分類", reading: "ぶんるい" },
+      { kanji: "利活用", reading: "りかつよう" },
+      { kanji: "枠組み", reading: "わくぐみ" }
+    ];
+
+    const startBtn = document.getElementById('startBtn');
+    const quizCard = document.getElementById('quizCard');
+    const resultCard = document.getElementById('resultCard');
+    const questionText = document.getElementById('questionText');
+    const progress = document.getElementById('progress');
+    const answerInput = document.getElementById('answerInput');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const feedback = document.getElementById('feedback');
+    const studentInfo = document.getElementById('studentInfo');
+    const resultStudent = document.getElementById('resultStudent');
+    const scoreText = document.getElementById('scoreText');
+    const mistakeList = document.getElementById('mistakeList');
+    const retryWrongBtn = document.getElementById('retryWrongBtn');
+    const newQuizBtn = document.getElementById('newQuizBtn');
+
+    let quizItems = [];
+    let currentIndex = 0;
+    let score = 0;
+    let checked = false;
+    let mistakes = [];
+
+    function shuffle(array) {
+      const copied = [...array];
+      for (let i = copied.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copied[i], copied[j]] = [copied[j], copied[i]];
+      }
+      return copied;
+    }
+
+    function normalize(text) {
+      return (text || '').trim().replace(/\s+/g, '');
+    }
+
+    function buildQuiz(items) {
+      quizItems = items;
+      currentIndex = 0;
+      score = 0;
+      checked = false;
+      mistakes = [];
+      resultCard.classList.add('hidden');
+      quizCard.classList.remove('hidden');
+      renderQuestion();
+      answerInput.focus();
+    }
+
+    function startQuizFromSettings() {
+      const studentId = document.getElementById('studentId').value.trim();
+      const studentName = document.getElementById('studentName').value.trim();
+      const questionCount = Number(document.getElementById('questionCount').value);
+      const mode = document.getElementById('mode').value;
+
+      studentInfo.textContent = `学籍番号：${studentId || '未入力'}　／　名前：${studentName || '未入力'}`;
+      resultStudent.textContent = studentInfo.textContent;
+
+      let items = mode === 'random' ? shuffle(WORDS) : [...WORDS];
+      items = items.slice(0, questionCount);
+      buildQuiz(items);
+    }
+
+    function renderQuestion() {
+      const item = quizItems[currentIndex];
+      questionText.textContent = item.kanji;
+      progress.textContent = `第${currentIndex + 1}問 / ${quizItems.length}`;
+      answerInput.value = '';
+      checked = false;
+      feedback.className = 'feedback';
+      feedback.textContent = '';
+      nextBtn.classList.add('hidden');
+      checkBtn.disabled = false;
+    }
+
+    function checkAnswer() {
+      if (checked) return;
+      const item = quizItems[currentIndex];
+      const userAnswer = normalize(answerInput.value);
+      const correct = normalize(item.reading);
+
+      if (!userAnswer) {
+        feedback.className = 'feedback ng';
+        feedback.textContent = 'こたえを入力してください。';
+        return;
+      }
+
+      checked = true;
+      checkBtn.disabled = true;
+      nextBtn.classList.remove('hidden');
+
+      if (userAnswer === correct) {
+        score += 1;
+        feedback.className = 'feedback ok';
+        feedback.textContent = `〇 正解です！「${item.kanji}」は「${item.reading}」です。`;
+      } else {
+        mistakes.push(item);
+        feedback.className = 'feedback ng';
+        feedback.textContent = `× ちがいます。正解は「${item.reading}」です。`;
+      }
+    }
+
+    function nextQuestion() {
+      if (!checked) return;
+      currentIndex += 1;
+      if (currentIndex >= quizItems.length) {
+        showResults();
+        return;
+      }
+      renderQuestion();
+      answerInput.focus();
+    }
+
+    function showResults() {
+      quizCard.classList.add('hidden');
+      resultCard.classList.remove('hidden');
+      scoreText.textContent = `${quizItems.length}問中 ${score}問正解`;
+      mistakeList.innerHTML = '';
+
+      if (mistakes.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = '全問正解です。すばらしいです。';
+        mistakeList.appendChild(li);
+        retryWrongBtn.disabled = true;
+      } else {
+        retryWrongBtn.disabled = false;
+        mistakes.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = `${item.kanji} → ${item.reading}`;
+          mistakeList.appendChild(li);
+        });
+      }
+    }
+
+    startBtn.addEventListener('click', startQuizFromSettings);
+    checkBtn.addEventListener('click', checkAnswer);
+    nextBtn.addEventListener('click', nextQuestion);
+    restartBtn.addEventListener('click', () => {
+      quizCard.classList.add('hidden');
+      resultCard.classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    retryWrongBtn.addEventListener('click', () => {
+      if (mistakes.length > 0) {
+        buildQuiz(shuffle(mistakes));
+      }
+    });
+    newQuizBtn.addEventListener('click', () => {
+      resultCard.classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    answerInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        if (!checked) {
+          checkAnswer();
+        } else {
+          nextQuestion();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
