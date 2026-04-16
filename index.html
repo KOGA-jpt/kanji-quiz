@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>語彙カード／読みクイズ</title>
+  <title>語彙カードと読みクイズ</title>
   <style>
     :root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--sub:#6b7280;--accent:#2563eb;--border:#dbe3f0;--soft:#f8fbff;--ok:#15803d;--ng:#b91c1c}
     *{box-sizing:border-box} body{margin:0;font-family:"Yu Gothic","Meiryo",sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
@@ -21,7 +21,7 @@
 <body>
 <div class="wrap">
   <div class="card">
-    <h1>語彙カード／読みクイズ　　日本語2（応用日本語）</h1>
+    <h1>語彙カードと読みクイズ</h1>
     <div class="sub">語彙をタップすると、読み方と意味が開きます。下のタブで読みクイズにも切り替えられます。</div>
     <div class="tabs">
       <button class="tabBtn active" data-target="vocabPanel">語彙を見る</button>
@@ -78,63 +78,63 @@
 </div>
 <script>
 const WORDS = [
-{kanji:"展望",reading:"てんぼう",jp:"これからどうなるかについての見通し。",zh:"展望，前景",vi:"triển vọng",en:"outlook; prospect"},
-{kanji:"公表",reading:"こうひょう",jp:"みんなに知らせること。",zh:"公布，发表",vi:"công bố",en:"announcement; publication"},
-{kanji:"探究",reading:"たんきゅう",jp:"深く調べて考えること。",zh:"探究",vi:"nghiên cứu, tìm tòi",en:"inquiry; exploration"},
-{kanji:"分析",reading:"ぶんせき",jp:"分けて、くわしく調べること。",zh:"分析",vi:"phân tích",en:"analysis"},
-{kanji:"考察",reading:"こうさつ",jp:"よく考えて、意味や理由を調べること。",zh:"考察",vi:"khảo sát, xem xét",en:"consideration; examination"},
-{kanji:"再構築",reading:"さいこうちく",jp:"もう一度作り直すこと。",zh:"重新构建",vi:"tái cấu trúc",en:"reconstruction"},
-{kanji:"機会",reading:"きかい",jp:"何かをするのによい時。",zh:"机会",vi:"cơ hội",en:"opportunity"},
-{kanji:"指摘",reading:"してき",jp:"問題や大切な点を言うこと。",zh:"指出",vi:"chỉ ra",en:"pointing out"},
-{kanji:"依存",reading:"いぞん",jp:"それがないとだめになるほど頼ること。",zh:"依赖",vi:"phụ thuộc",en:"dependence"},
-{kanji:"陥る",reading:"おちいる",jp:"悪い状態になる。",zh:"陷入",vi:"rơi vào",en:"fall into"},
-{kanji:"汎用的",reading:"はんようてき",jp:"広くいろいろな場面で使えるようす。",zh:"通用的，通用型的",vi:"mang tính đa dụng",en:"general-purpose"},
-{kanji:"直感的",reading:"ちょっかんてき",jp:"深く考える前にすぐわかるようす。",zh:"直观的",vi:"mang tính trực quan",en:"intuitive"},
-{kanji:"普及",reading:"ふきゅう",jp:"広く使われるようになること。",zh:"普及",vi:"phổ biến",en:"spread; diffusion"},
-{kanji:"機関",reading:"きかん",jp:"ある目的のために作られた組織。",zh:"机构",vi:"cơ quan, tổ chức",en:"institution; organization"},
-{kanji:"制御",reading:"せいぎょ",jp:"動きや働きを思ったとおりに調整すること。",zh:"控制",vi:"điều khiển, kiểm soát",en:"control"},
-{kanji:"状況",reading:"じょうきょう",jp:"そのときのようす。",zh:"状况",vi:"tình hình",en:"situation"},
-{kanji:"拡大",reading:"かくだい",jp:"大きく広がること。",zh:"扩大",vi:"mở rộng",en:"expansion"},
-{kanji:"同時",reading:"どうじ",jp:"同じ時。",zh:"同时",vi:"đồng thời",en:"simultaneous"},
-{kanji:"課題",reading:"かだい",jp:"解決したり、取り組んだりする問題。",zh:"课题",vi:"nhiệm vụ, vấn đề",en:"task; issue"},
-{kanji:"向上",reading:"こうじょう",jp:"前よりよくなること。",zh:"提高",vi:"nâng cao",en:"improvement"},
-{kanji:"可能性",reading:"かのうせい",jp:"そうなるかもしれない見込み。",zh:"可能性",vi:"khả năng",en:"possibility"},
-{kanji:"構成",reading:"こうせい",jp:"組み立て方。",zh:"构成",vi:"cấu thành",en:"composition; structure"},
-{kanji:"推論",reading:"すいろん",jp:"わかっていることから考えて答えを出すこと。",zh:"推论",vi:"suy luận",en:"inference"},
-{kanji:"メタ認知",reading:"めたにんち",jp:"自分の考え方や学び方を自分で見て考えること。",zh:"元认知",vi:"siêu nhận thức",en:"metacognition"},
-{kanji:"任せる",reading:"まかせる",jp:"自分でしないで、ほかの人やものにしてもらう。",zh:"交给，委托",vi:"giao cho",en:"leave to; entrust"},
-{kanji:"成果",reading:"せいか",jp:"努力して得られたよい結果。",zh:"成果",vi:"thành quả",en:"result; achievement"},
-{kanji:"長期的",reading:"ちょうきてき",jp:"長い時間を考えたようす。",zh:"长期的",vi:"mang tính dài hạn",en:"long-term"},
-{kanji:"学力",reading:"がくりょく",jp:"勉強して身につけた力。",zh:"学力",vi:"năng lực học tập",en:"academic ability"},
-{kanji:"遂行",reading:"すいこう",jp:"最後までやりとげること。",zh:"遂行",vi:"thực hiện hoàn thành",en:"accomplishment; execution"},
-{kanji:"認知",reading:"にんち",jp:"知って理解すること。",zh:"认知",vi:"nhận thức",en:"cognition; recognition"},
-{kanji:"怠惰",reading:"たいだ",jp:"なまけて、しっかりしないようす。",zh:"懒惰",vi:"lười biếng",en:"laziness"},
-{kanji:"無関心",reading:"むかんしん",jp:"関心がないこと。",zh:"漠不关心",vi:"thờ ơ",en:"indifference"},
-{kanji:"逆転",reading:"ぎゃくてん",jp:"立場や結果が反対になること。",zh:"逆转",vi:"đảo ngược",en:"reversal"},
-{kanji:"教育的",reading:"きょういくてき",jp:"学びに役立つようす。",zh:"教育性的",vi:"mang tính giáo dục",en:"educational"},
-{kanji:"意図的",reading:"いとてき",jp:"考えや目的をもってするようす。",zh:"有意图地，故意地",vi:"có chủ ý",en:"intentional"},
-{kanji:"最適",reading:"さいてき",jp:"いちばん合っていて、いちばんよいこと。",zh:"最适合",vi:"tối ưu",en:"optimal"},
-{kanji:"自己調整",reading:"じこちょうせい",jp:"自分で考えて自分を整えること。",zh:"自我调节",vi:"tự điều chỉnh",en:"self-regulation"},
-{kanji:"対話型",reading:"たいわがた",jp:"話し合いながら進める形。",zh:"对话型",vi:"dạng đối thoại",en:"interactive; dialogue-based"},
-{kanji:"協働",reading:"きょうどう",jp:"力を合わせていっしょにすること。",zh:"协作",vi:"cộng tác",en:"collaboration"},
-{kanji:"知識深化",reading:"ちしきしんか",jp:"知識をもっと深くすること。",zh:"知识深化",vi:"làm sâu sắc kiến thức",en:"deepening of knowledge"},
-{kanji:"議論力",reading:"ぎろんりょく",jp:"自分の考えを出し合って話し合う力。",zh:"讨论能力",vi:"năng lực thảo luận",en:"discussion skills"},
-{kanji:"可視化",reading:"かしか",jp:"見えないものを見える形にすること。",zh:"可视化",vi:"trực quan hóa",en:"visualization"},
-{kanji:"補完",reading:"ほかん",jp:"足りないところをおぎなうこと。",zh:"补充，补完",vi:"bổ sung",en:"complement; supplementation"},
-{kanji:"単独",reading:"たんどく",jp:"一つだけ、または一人だけですること。",zh:"单独",vi:"đơn lẻ",en:"alone; single-handed"},
-{kanji:"達成",reading:"たっせい",jp:"目標をやりとげること。",zh:"达成",vi:"đạt được",en:"achievement"},
-{kanji:"評価項目",reading:"ひょうかこうもく",jp:"評価するときに見る点。",zh:"评价项目",vi:"hạng mục đánh giá",en:"evaluation item"},
-{kanji:"整合性",reading:"せいごうせい",jp:"前と後、全体がきちんと合っていること。",zh:"一致性，整合性",vi:"tính nhất quán",en:"consistency"},
-{kanji:"分類",reading:"ぶんるい",jp:"種類ごとに分けること。",zh:"分类",vi:"phân loại",en:"classification"},
-{kanji:"利活用",reading:"りかつよう",jp:"役に立つように使うこと。",zh:"利用与活用",vi:"tận dụng và sử dụng",en:"practical use; utilization"},
-{kanji:"枠組み",reading:"わくぐみ",jp:"全体の組み立てや基本の形。",zh:"框架",vi:"khung",en:"framework"}
+{kanji:"展望",reading:"てんぼう",jp:"これからどうなるかについての見通し。",zh:"展望，前景",vi:"triển vọng",ne:"परिदृश्य; सम्भावना",en:"outlook; prospect"},
+{kanji:"公表",reading:"こうひょう",jp:"みんなに知らせること。",zh:"公布，发表",vi:"công bố",ne:"सार्वजनिक घोषणा",en:"announcement; publication"},
+{kanji:"探究",reading:"たんきゅう",jp:"深く調べて考えること。",zh:"探究",vi:"nghiên cứu, tìm tòi",ne:"अनुसन्धान; खोज",en:"inquiry; exploration"},
+{kanji:"分析",reading:"ぶんせき",jp:"分けて、くわしく調べること。",zh:"分析",vi:"phân tích",ne:"विश्लेषण",en:"analysis"},
+{kanji:"考察",reading:"こうさつ",jp:"よく考えて、意味や理由を調べること。",zh:"考察",vi:"khảo sát, xem xét",ne:"विचार; परीक्षण",en:"consideration; examination"},
+{kanji:"再構築",reading:"さいこうちく",jp:"もう一度作り直すこと。",zh:"重新构建",vi:"tái cấu trúc",ne:"पुनर्संरचना",en:"reconstruction"},
+{kanji:"機会",reading:"きかい",jp:"何かをするのによい時。",zh:"机会",vi:"cơ hội",ne:"अवसर",en:"opportunity"},
+{kanji:"指摘",reading:"してき",jp:"問題や大切な点を言うこと。",zh:"指出",vi:"chỉ ra",ne:"औँल्याउनु; संकेत गर्नु",en:"pointing out"},
+{kanji:"依存",reading:"いぞん",jp:"それがないとだめになるほど頼ること。",zh:"依赖",vi:"phụ thuộc",ne:"निर्भरता",en:"dependence"},
+{kanji:"陥る",reading:"おちいる",jp:"悪い状態になる。",zh:"陷入",vi:"rơi vào",ne:"फस्नु; नराम्रो अवस्थामा पर्नु",en:"fall into"},
+{kanji:"汎用的",reading:"はんようてき",jp:"広くいろいろな場面で使えるようす。",zh:"通用的，通用型的",vi:"mang tính đa dụng",ne:"बहुउपयोगी",en:"general-purpose"},
+{kanji:"直感的",reading:"ちょっかんてき",jp:"深く考える前にすぐわかるようす。",zh:"直观的",vi:"mang tính trực quan",ne:"सहज बोधगम्य",en:"intuitive"},
+{kanji:"普及",reading:"ふきゅう",jp:"広く使われるようになること。",zh:"普及",vi:"phổ biến",ne:"प्रसार",en:"spread; diffusion"},
+{kanji:"機関",reading:"きかん",jp:"ある目的のために作られた組織。",zh:"机构",vi:"cơ quan, tổ chức",ne:"संस्था",en:"institution; organization"},
+{kanji:"制御",reading:"せいぎょ",jp:"動きや働きを思ったとおりに調整すること。",zh:"控制",vi:"điều khiển, kiểm soát",ne:"नियन्त्रण",en:"control"},
+{kanji:"状況",reading:"じょうきょう",jp:"そのときのようす。",zh:"状况",vi:"tình hình",ne:"परिस्थिति",en:"situation"},
+{kanji:"拡大",reading:"かくだい",jp:"大きく広がること。",zh:"扩大",vi:"mở rộng",ne:"विस्तार",en:"expansion"},
+{kanji:"同時",reading:"どうじ",jp:"同じ時。",zh:"同时",vi:"đồng thời",ne:"एकै समयमा",en:"simultaneous"},
+{kanji:"課題",reading:"かだい",jp:"解決したり、取り組んだりする問題。",zh:"课题",vi:"nhiệm vụ, vấn đề",ne:"कार्य; समस्या",en:"task; issue"},
+{kanji:"向上",reading:"こうじょう",jp:"前よりよくなること。",zh:"提高",vi:"nâng cao",ne:"सुधार; उन्नति",en:"improvement"},
+{kanji:"可能性",reading:"かのうせい",jp:"そうなるかもしれない見込み。",zh:"可能性",vi:"khả năng",ne:"सम्भावना",en:"possibility"},
+{kanji:"構成",reading:"こうせい",jp:"組み立て方。",zh:"构成",vi:"cấu thành",ne:"संरचना",en:"composition; structure"},
+{kanji:"推論",reading:"すいろん",jp:"わかっていることから考えて答えを出すこと。",zh:"推论",vi:"suy luận",ne:"अनुमान; निष्कर्ष",en:"inference"},
+{kanji:"メタ認知",reading:"めたにんち",jp:"自分の考え方や学び方を自分で見て考えること。",zh:"元认知",vi:"siêu nhận thức",ne:"मेटा-संज्ञान",en:"metacognition"},
+{kanji:"任せる",reading:"まかせる",jp:"自分でしないで、ほかの人やものにしてもらう。",zh:"交给，委托",vi:"giao cho",ne:"सुम्पनु; जिम्मा लगाउनु",en:"leave to; entrust"},
+{kanji:"成果",reading:"せいか",jp:"努力して得られたよい結果。",zh:"成果",vi:"thành quả",ne:"उपलब्धि; परिणाम",en:"result; achievement"},
+{kanji:"長期的",reading:"ちょうきてき",jp:"長い時間を考えたようす。",zh:"长期的",vi:"mang tính dài hạn",ne:"दीर्घकालीन",en:"long-term"},
+{kanji:"学力",reading:"がくりょく",jp:"勉強して身につけた力。",zh:"学力",vi:"năng lực học tập",ne:"शैक्षिक क्षमता",en:"academic ability"},
+{kanji:"遂行",reading:"すいこう",jp:"最後までやりとげること。",zh:"遂行",vi:"thực hiện hoàn thành",ne:"सम्पादन; पूरा गर्नु",en:"accomplishment; execution"},
+{kanji:"認知",reading:"にんち",jp:"知って理解すること。",zh:"认知",vi:"nhận thức",ne:"संज्ञान; पहिचान",en:"cognition; recognition"},
+{kanji:"怠惰",reading:"たいだ",jp:"なまけて、しっかりしないようす。",zh:"懒惰",vi:"lười biếng",ne:"आलस्य",en:"laziness"},
+{kanji:"無関心",reading:"むかんしん",jp:"関心がないこと。",zh:"漠不关心",vi:"thờ ơ",ne:"उदासीनता",en:"indifference"},
+{kanji:"逆転",reading:"ぎゃくてん",jp:"立場や結果が反対になること。",zh:"逆转",vi:"đảo ngược",ne:"उल्टफेर; पल्टन",en:"reversal"},
+{kanji:"教育的",reading:"きょういくてき",jp:"学びに役立つようす。",zh:"教育性的",vi:"mang tính giáo dục",ne:"शैक्षिक",en:"educational"},
+{kanji:"意図的",reading:"いとてき",jp:"考えや目的をもってするようす。",zh:"有意图地，故意地",vi:"có chủ ý",ne:"जानाजानी; उद्देश्यपूर्ण",en:"intentional"},
+{kanji:"最適",reading:"さいてき",jp:"いちばん合っていて、いちばんよいこと。",zh:"最适合",vi:"tối ưu",ne:"सबैभन्दा उपयुक्त",en:"optimal"},
+{kanji:"自己調整",reading:"じこちょうせい",jp:"自分で考えて自分を整えること。",zh:"自我调节",vi:"tự điều chỉnh",ne:"स्व-समायोजन",en:"self-regulation"},
+{kanji:"対話型",reading:"たいわがた",jp:"話し合いながら進める形。",zh:"对话型",vi:"dạng đối thoại",ne:"संवादात्मक",en:"interactive; dialogue-based"},
+{kanji:"協働",reading:"きょうどう",jp:"力を合わせていっしょにすること。",zh:"协作",vi:"cộng tác",ne:"सहकार्य",en:"collaboration"},
+{kanji:"知識深化",reading:"ちしきしんか",jp:"知識をもっと深くすること。",zh:"知识深化",vi:"làm sâu sắc kiến thức",ne:"ज्ञानको गहिराइ",en:"deepening of knowledge"},
+{kanji:"議論力",reading:"ぎろんりょく",jp:"自分の考えを出し合って話し合う力。",zh:"讨论能力",vi:"năng lực thảo luận",ne:"छलफल गर्ने क्षमता",en:"discussion skills"},
+{kanji:"可視化",reading:"かしか",jp:"見えないものを見える形にすること。",zh:"可视化",vi:"trực quan hóa",ne:"दृश्यकरण",en:"visualization"},
+{kanji:"補完",reading:"ほかん",jp:"足りないところをおぎなうこと。",zh:"补充，补完",vi:"bổ sung",ne:"पूरक;補充",en:"complement; supplementation"},
+{kanji:"単独",reading:"たんどく",jp:"一つだけ、または一人だけですること。",zh:"单独",vi:"đơn lẻ",ne:"एक्लै; एकमात्र",en:"alone; single-handed"},
+{kanji:"達成",reading:"たっせい",jp:"目標をやりとげること。",zh:"达成",vi:"đạt được",ne:"प्राप्ति; हासिल",en:"achievement"},
+{kanji:"評価項目",reading:"ひょうかこうもく",jp:"評価するときに見る点。",zh:"评价项目",vi:"hạng mục đánh giá",ne:"मूल्याङ्कनका बुँदा",en:"evaluation item"},
+{kanji:"整合性",reading:"せいごうせい",jp:"前と後、全体がきちんと合っていること。",zh:"一致性，整合性",vi:"tính nhất quán",ne:"संगति; एकरूपता",en:"consistency"},
+{kanji:"分類",reading:"ぶんるい",jp:"種類ごとに分けること。",zh:"分类",vi:"phân loại",ne:"वर्गीकरण",en:"classification"},
+{kanji:"利活用",reading:"りかつよう",jp:"役に立つように使うこと。",zh:"利用与活用",vi:"tận dụng và sử dụng",ne:"उपयोग र सदुपयोग",en:"practical use; utilization"},
+{kanji:"枠組み",reading:"わくぐみ",jp:"全体の組み立てや基本の形。",zh:"框架",vi:"khung",ne:"ढाँचा; रूपरेखा",en:"framework"}
 ];
 
 const tabBtns=document.querySelectorAll('.tabBtn'); const panels=document.querySelectorAll('.panel');
 tabBtns.forEach(btn=>btn.addEventListener('click',()=>{tabBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');panels.forEach(p=>p.classList.add('hidden'));const target=document.getElementById(btn.dataset.target);target.classList.remove('hidden');target.scrollIntoView({behavior:'smooth',block:'start'});}));
 
 const vocabGrid=document.getElementById('vocabGrid');
-function renderVocab(list){vocabGrid.innerHTML=''; list.forEach((w,i)=>{const div=document.createElement('div'); div.className='vocabItem'; div.innerHTML=`<button class="vocabHeader" type="button"><span>${i+1}. ${w.kanji}</span><span>タップでひらく</span></button><div class="vocabBody"><div class="meaningBlock"><div class="meaningLabel">読み</div><div>${w.reading}</div></div><div class="meaningBlock"><div class="meaningLabel">やさしい日本語</div><div>${w.jp}</div></div><div class="meaningBlock"><div class="meaningLabel">中国語</div><div>${w.zh}</div></div><div class="meaningBlock"><div class="meaningLabel">ベトナム語</div><div>${w.vi}</div></div><div class="meaningBlock"><div class="meaningLabel">英語</div><div>${w.en}</div></div></div>`; div.querySelector('.vocabHeader').addEventListener('click',()=>div.classList.toggle('open')); vocabGrid.appendChild(div);});}
+function renderVocab(list){vocabGrid.innerHTML=''; list.forEach((w,i)=>{const div=document.createElement('div'); div.className='vocabItem'; div.innerHTML=`<button class="vocabHeader" type="button"><span>${i+1}. ${w.kanji}</span><span>タップでひらく</span></button><div class="vocabBody"><div class="meaningBlock"><div class="meaningLabel">読み</div><div>${w.reading}</div></div><div class="meaningBlock"><div class="meaningLabel">やさしい日本語</div><div>${w.jp}</div></div><div class="meaningBlock"><div class="meaningLabel">中国語</div><div>${w.zh}</div></div><div class="meaningBlock"><div class="meaningLabel">ベトナム語</div><div>${w.vi}</div></div><div class="meaningBlock"><div class="meaningLabel">ネパール語</div><div>${w.ne}</div></div><div class="meaningBlock"><div class="meaningLabel">英語</div><div>${w.en}</div></div></div>`; div.querySelector('.vocabHeader').addEventListener('click',()=>div.classList.toggle('open')); vocabGrid.appendChild(div);});}
 renderVocab(WORDS);
 document.getElementById('searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase(); const filtered=WORDS.filter(w=>Object.values(w).some(v=>String(v).toLowerCase().includes(q))); renderVocab(filtered);});
 document.getElementById('openAllBtn').addEventListener('click',()=>document.querySelectorAll('.vocabItem').forEach(x=>x.classList.add('open')));
