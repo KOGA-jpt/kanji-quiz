@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
@@ -15,14 +16,14 @@
     .vocabItem{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#fff}.vocabHeader{width:100%;text-align:left;background:var(--soft);color:var(--text);border-radius:0;padding:16px;display:flex;justify-content:space-between;align-items:center;font-size:1.1rem}.vocabHeader span:last-child{color:var(--sub);font-size:.95rem}
     .vocabBody{display:none;padding:16px;border-top:1px solid var(--border)}.vocabItem.open .vocabBody{display:block}.meaningBlock{margin-bottom:10px}.meaningLabel{font-weight:700;color:#1e3a8a;margin-bottom:2px}
     .meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--sub);font-size:.95rem}.questionBox{text-align:center;padding:16px 10px;background:#f8fbff;border:1px solid #dceaff;border-radius:18px;margin:18px 0}.questionLabel{color:var(--sub);font-size:.95rem;margin-bottom:8px}.question{font-size:2.5rem;font-weight:800;letter-spacing:.06em}
-    .feedback{margin-top:14px;padding:14px;border-radius:14px;font-weight:700;display:none}.ok{background:#ecfdf3;color:var(--ok);border:1px solid #bbf7d0;display:block}.ng{background:#fef2f2;color:var(--ng);border:1px solid #fecaca;display:block}.score{font-size:1.2rem;font-weight:800;margin:6px 0 10px}.resultList{padding-left:1.2em}.muted{color:var(--sub);font-size:.92rem}
+    .feedback{margin:10px 0 14px;padding:14px;border-radius:14px;font-weight:700;display:none}.ok{background:#ecfdf3;color:var(--ok);border:1px solid #bbf7d0;display:block}.ng{background:#fef2f2;color:var(--ng);border:1px solid #fecaca;display:block}.score{font-size:1.2rem;font-weight:800;margin:6px 0 10px}.resultList{padding-left:1.2em}.muted{color:var(--sub);font-size:.92rem}
   </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card">
     <h1>語彙カードと読みクイズ</h1>
-    <div class="sub">語彙をタップすると、読み方と意味が開きます。下のタブで読みクイズにも切り替えられます。</div>
+    <div class="sub">語彙をタップすると、読み方と意味が開きます。上のボタンで語彙カードと読みクイズを切り替えられます。</div>
     <div class="tabs">
       <button class="tabBtn active" data-target="vocabPanel">語彙を見る</button>
       <button class="tabBtn" data-target="quizPanel">読みクイズをする</button>
@@ -57,30 +58,34 @@
       <div class="controls"><button class="primary" id="startBtn">はじめる</button></div>
     </div>
 
-    <div class="card hidden" id="quizCard">
-      <div class="meta"><div id="studentInfo">学籍番号：　／　名前：</div><div id="progress">第1問</div></div>
-      <div class="questionBox"><div class="questionLabel">次のことばの読みを、ひらがなで答えましょう。</div><div class="question" id="questionText">展望</div></div>
-      <label for="answerInput">こたえ</label><input id="answerInput" type="text" placeholder="ひらがなで入力" autocomplete="off" />
-      <div class="muted">※ ひらがなで入力してください。</div>
-      <div class="controls"><button class="primary" id="checkBtn">答え合わせ</button><button class="secondary hidden" id="nextBtn">次の問題へ</button><button class="ghost" id="restartBtn">最初に戻る</button></div>
-      <div class="feedback" id="feedback"></div>
-    </div>
+```
+<div class="card hidden" id="quizCard">
+  <div class="meta"><div id="studentInfo">学籍番号：　／　名前：</div><div id="progress">第1問</div></div>
+  <div class="questionBox"><div class="questionLabel">次のことばの読みを、ひらがなで答えましょう。</div><div class="question" id="questionText">展望</div></div>
+  <label for="answerInput">こたえ</label>
+  <div class="feedback" id="feedback"></div>
+  <input id="answerInput" type="text" placeholder="ひらがなで入力" autocomplete="off" />
+  <div class="muted">※ ひらがなで入力してください。</div>
+  <div class="controls"><button class="primary" id="checkBtn">答え合わせ</button><button class="secondary" id="hintBtn">ヒント</button><button class="secondary" id="showAnswerBtn">答えを見る</button><button class="secondary hidden" id="nextBtn">次の問題へ</button><button class="ghost" id="restartBtn">最初に戻る</button></div>
+</div>
 
-    <div class="card hidden" id="resultCard">
-      <h2>結果</h2>
-      <div id="resultStudent"></div>
-      <div class="score" id="scoreText"></div>
-      <div class="muted">まちがえた問題は下で確認できます。</div>
-      <ol class="resultList" id="mistakeList"></ol>
-      <div class="controls"><button class="primary" id="retryWrongBtn">まちがえた問題だけもう一度</button><button class="secondary" id="newQuizBtn">新しくやり直す</button></div>
-    </div>
+<div class="card hidden" id="resultCard">
+  <h2>結果</h2>
+  <div id="resultStudent"></div>
+  <div class="score" id="scoreText"></div>
+  <div class="muted">まちがえた問題は下で確認できます。</div>
+  <ol class="resultList" id="mistakeList"></ol>
+  <div class="controls"><button class="primary" id="retryWrongBtn">まちがえた問題だけもう一度</button><button class="secondary" id="newQuizBtn">新しくやり直す</button></div>
+</div>
+```
+
   </div>
 </div>
 <script>
 const WORDS = [
 {kanji:"展望",reading:"てんぼう",jp:"これからどうなるかについての見通し。",zh:"展望，前景",vi:"triển vọng",ne:"परिदृश्य; सम्भावना",si:"අනාගත දැක්ම; අපේක්ෂාව",en:"outlook; prospect"},
 {kanji:"公表",reading:"こうひょう",jp:"みんなに知らせること。",zh:"公布，发表",vi:"công bố",ne:"सार्वजनिक घोषणा",si:"ප්‍රකාශ කිරීම; ජනප්‍රකාශය",en:"announcement; publication"},
-{kanji:"探究",reading:"たんきゅう",jp:"深く調べて考えること。",zh:"探究",vi:"nghiên cứu, tìm tòi",ne:"अनुसन्धान; खोज",si:"ගැඹුරු සෙවීම; අන్వේෂණය",en:"inquiry; exploration"},
+{kanji:"探究",reading:"たんきゅう",jp:"深く調べて考えること。",zh:"探究",vi:"nghiên cứu, tìm tòi",ne:"अनुसन्धान; खोज",si:"ගැඹුරු සෙවීම; අන्वේෂණය",en:"inquiry; exploration"},
 {kanji:"分析",reading:"ぶんせき",jp:"分けて、くわしく調べること。",zh:"分析",vi:"phân tích",ne:"विश्लेषण",si:"විශ්ලේෂණය",en:"analysis"},
 {kanji:"考察",reading:"こうさつ",jp:"よく考えて、意味や理由を調べること。",zh:"考察",vi:"khảo sát, xem xét",ne:"विचार; परीक्षण",si:"සැලකිල්ලෙන් පරීක්ෂා කිරීම",en:"consideration; examination"},
 {kanji:"再構築",reading:"さいこうちく",jp:"もう一度作り直すこと。",zh:"重新构建",vi:"tái cấu trúc",ne:"पुनर्संरचना",si:"නැවත ගොඩනැගීම",en:"reconstruction"},
@@ -102,7 +107,7 @@ const WORDS = [
 {kanji:"構成",reading:"こうせい",jp:"組み立て方。",zh:"构成",vi:"cấu thành",ne:"संरचना",si:"ව්‍යුහය; සංයුතිය",en:"composition; structure"},
 {kanji:"推論",reading:"すいろん",jp:"わかっていることから考えて答えを出すこと。",zh:"推论",vi:"suy luận",ne:"अनुमान; निष्कर्ष",si:"නිගමනය; අනුමානය",en:"inference"},
 {kanji:"メタ認知",reading:"めたにんち",jp:"自分の考え方や学び方を自分で見て考えること。",zh:"元认知",vi:"siêu nhận thức",ne:"मेटा-संज्ञान",si:"මෙටා-සංජානනය",en:"metacognition"},
-{kanji:"任せる",reading:"まかせる",jp:"自分でしないで、ほかの人やものにしてもらう。",zh:"交给，委托",vi:"giao cho",ne:"सुम्पनु; जिम्मा लगाउनु",si:"භාර දීම; 맡기다",en:"leave to; entrust"},
+{kanji:"任せる",reading:"まかせる",jp:"自分でしないで、ほかの人やものにしてもらう。",zh:"交给，委托",vi:"giao cho",ne:"सुम्पनु; जिम्मा लगाउनु",si:"භාර දීම",en:"leave to; entrust"},
 {kanji:"成果",reading:"せいか",jp:"努力して得られたよい結果。",zh:"成果",vi:"thành quả",ne:"उपलब्धि; परिणाम",si:"ප්‍රතිඵල; සාර්ථකත්වය",en:"result; achievement"},
 {kanji:"長期的",reading:"ちょうきてき",jp:"長い時間を考えたようす。",zh:"长期的",vi:"mang tính dài hạn",ne:"दीर्घकालीन",si:"දිගුකාලීන",en:"long-term"},
 {kanji:"学力",reading:"がくりょく",jp:"勉強して身につけた力。",zh:"学力",vi:"năng lực học tập",ne:"शैक्षिक क्षमता",si:"අධ්‍යයන හැකියාව",en:"academic ability"},
@@ -130,27 +135,39 @@ const WORDS = [
 {kanji:"枠組み",reading:"わくぐみ",jp:"全体の組み立てや基本の形。",zh:"框架",vi:"khung",ne:"ढाँचा; रूपरेखा",si:"රාමුව; සැලැස්ම",en:"framework"}
 ];
 
-const tabBtns=document.querySelectorAll('.tabBtn'); const panels=document.querySelectorAll('.panel');
+const tabBtns=document.querySelectorAll('.tabBtn');
+const panels=document.querySelectorAll('.panel');
 tabBtns.forEach(btn=>btn.addEventListener('click',()=>{tabBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');panels.forEach(p=>p.classList.add('hidden'));const target=document.getElementById(btn.dataset.target);target.classList.remove('hidden');target.scrollIntoView({behavior:'smooth',block:'start'});}));
 
 const vocabGrid=document.getElementById('vocabGrid');
-function renderVocab(list){vocabGrid.innerHTML=''; list.forEach((w,i)=>{const div=document.createElement('div'); div.className='vocabItem'; div.innerHTML=`<button class="vocabHeader" type="button"><span>${i+1}. ${w.kanji}</span><span>タップでひらく</span></button><div class="vocabBody"><div class="meaningBlock"><div class="meaningLabel">読み</div><div>${w.reading}</div></div><div class="meaningBlock"><div class="meaningLabel">やさしい日本語</div><div>${w.jp}</div></div><div class="meaningBlock"><div class="meaningLabel">中国語</div><div>${w.zh}</div></div><div class="meaningBlock"><div class="meaningLabel">ベトナム語</div><div>${w.vi}</div></div><div class="meaningBlock"><div class="meaningLabel">ネパール語</div><div>${w.ne}</div></div><div class="meaningBlock"><div class="meaningLabel">シンハラ語</div><div>${w.si}</div></div><div class="meaningBlock"><div class="meaningLabel">英語</div><div>${w.en}</div></div></div>`; div.querySelector('.vocabHeader').addEventListener('click',()=>div.classList.toggle('open')); vocabGrid.appendChild(div);});}
+function renderVocab(list){
+vocabGrid.innerHTML='';
+list.forEach((w,i)=>{
+const div=document.createElement('div');
+div.className='vocabItem';
+div.innerHTML=`<button class="vocabHeader" type="button"><span>${i+1}. ${w.kanji}</span><span>タップでひらく</span></button><div class="vocabBody"><div class="meaningBlock"><div class="meaningLabel">読み</div><div>${w.reading}</div></div><div class="meaningBlock"><div class="meaningLabel">やさしい日本語</div><div>${w.jp}</div></div><div class="meaningBlock"><div class="meaningLabel">中国語</div><div>${w.zh}</div></div><div class="meaningBlock"><div class="meaningLabel">ベトナム語</div><div>${w.vi}</div></div><div class="meaningBlock"><div class="meaningLabel">ネパール語</div><div>${w.ne}</div></div><div class="meaningBlock"><div class="meaningLabel">シンハラ語</div><div>${w.si}</div></div><div class="meaningBlock"><div class="meaningLabel">英語</div><div>${w.en}</div></div></div>`;
+div.querySelector('.vocabHeader').addEventListener('click',()=>div.classList.toggle('open'));
+vocabGrid.appendChild(div);
+});
+}
 renderVocab(WORDS);
-document.getElementById('searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase(); const filtered=WORDS.filter(w=>Object.values(w).some(v=>String(v).toLowerCase().includes(q))); renderVocab(filtered);});
+document.getElementById('searchInput').addEventListener('input',e=>{const q=e.target.value.trim().toLowerCase();const filtered=WORDS.filter(w=>Object.values(w).some(v=>String(v).toLowerCase().includes(q)));renderVocab(filtered);});
 document.getElementById('openAllBtn').addEventListener('click',()=>document.querySelectorAll('.vocabItem').forEach(x=>x.classList.add('open')));
 document.getElementById('closeAllBtn').addEventListener('click',()=>document.querySelectorAll('.vocabItem').forEach(x=>x.classList.remove('open')));
 
-const startBtn=document.getElementById('startBtn'),quizCard=document.getElementById('quizCard'),resultCard=document.getElementById('resultCard'),questionText=document.getElementById('questionText'),progress=document.getElementById('progress'),answerInput=document.getElementById('answerInput'),checkBtn=document.getElementById('checkBtn'),nextBtn=document.getElementById('nextBtn'),restartBtn=document.getElementById('restartBtn'),feedback=document.getElementById('feedback'),studentInfo=document.getElementById('studentInfo'),resultStudent=document.getElementById('resultStudent'),scoreText=document.getElementById('scoreText'),mistakeList=document.getElementById('mistakeList'),retryWrongBtn=document.getElementById('retryWrongBtn'),newQuizBtn=document.getElementById('newQuizBtn');
-let quizItems=[],currentIndex=0,score=0,checked=false,mistakes=[];
+const startBtn=document.getElementById('startBtn'),quizCard=document.getElementById('quizCard'),resultCard=document.getElementById('resultCard'),questionText=document.getElementById('questionText'),progress=document.getElementById('progress'),answerInput=document.getElementById('answerInput'),checkBtn=document.getElementById('checkBtn'),hintBtn=document.getElementById('hintBtn'),showAnswerBtn=document.getElementById('showAnswerBtn'),nextBtn=document.getElementById('nextBtn'),restartBtn=document.getElementById('restartBtn'),feedback=document.getElementById('feedback'),studentInfo=document.getElementById('studentInfo'),resultStudent=document.getElementById('resultStudent'),scoreText=document.getElementById('scoreText'),mistakeList=document.getElementById('mistakeList'),retryWrongBtn=document.getElementById('retryWrongBtn'),newQuizBtn=document.getElementById('newQuizBtn');
+let quizItems=[],currentIndex=0,score=0,checked=false,mistakes=[],hintUsed=false,answerShown=false;
 function shuffle(a){const c=[...a];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]]}return c}
 function normalize(t){return (t||'').trim().replace(/\s+/g,'')}
-function buildQuiz(items){quizItems=items;currentIndex=0;score=0;checked=false;mistakes=[];resultCard.classList.add('hidden');quizCard.classList.remove('hidden');renderQuestion();answerInput.focus()}
+function buildQuiz(items){quizItems=items;currentIndex=0;score=0;checked=false;mistakes=[];hintUsed=false;answerShown=false;resultCard.classList.add('hidden');quizCard.classList.remove('hidden');renderQuestion();answerInput.focus()}
 function startQuizFromSettings(){const sid=document.getElementById('studentId').value.trim(),sname=document.getElementById('studentName').value.trim(),count=Number(document.getElementById('questionCount').value),mode=document.getElementById('mode').value;studentInfo.textContent=`学籍番号：${sid||'未入力'}　／　名前：${sname||'未入力'}`;resultStudent.textContent=studentInfo.textContent;let items=mode==='random'?shuffle(WORDS):[...WORDS];buildQuiz(items.slice(0,count))}
-function renderQuestion(){const item=quizItems[currentIndex];questionText.textContent=item.kanji;progress.textContent=`第${currentIndex+1}問 / ${quizItems.length}`;answerInput.value='';checked=false;feedback.className='feedback';feedback.textContent='';nextBtn.classList.add('hidden');checkBtn.disabled=false}
-function checkAnswer(){if(checked)return;const item=quizItems[currentIndex],user=normalize(answerInput.value),correct=normalize(item.reading);if(!user){feedback.className='feedback ng';feedback.textContent='こたえを入力してください。';return}checked=true;checkBtn.disabled=true;nextBtn.classList.remove('hidden');if(user===correct){score++;feedback.className='feedback ok';feedback.textContent=`〇 正解です！「${item.kanji}」は「${item.reading}」です。`}else{mistakes.push(item);feedback.className='feedback ng';feedback.textContent=`× ちがいます。正解は「${item.reading}」です。`}}
+function renderQuestion(){const item=quizItems[currentIndex];questionText.textContent=item.kanji;progress.textContent=`第${currentIndex+1}問 / ${quizItems.length}`;answerInput.value='';checked=false;hintUsed=false;answerShown=false;feedback.className='feedback';feedback.textContent='';nextBtn.classList.add('hidden');checkBtn.disabled=false;hintBtn.disabled=false;showAnswerBtn.disabled=false;checkBtn.classList.remove('hidden');hintBtn.classList.remove('hidden');showAnswerBtn.classList.remove('hidden')}
+function checkAnswer(){if(checked)return;const item=quizItems[currentIndex],user=normalize(answerInput.value),correct=normalize(item.reading);if(!user){feedback.className='feedback ng';feedback.textContent='こたえを入力するか、「ヒント」「答えを見る」を使ってください。';feedback.scrollIntoView({behavior:'smooth',block:'center'});return}checked=true;checkBtn.disabled=true;hintBtn.disabled=true;showAnswerBtn.disabled=true;checkBtn.classList.add('hidden');hintBtn.classList.add('hidden');showAnswerBtn.classList.add('hidden');nextBtn.classList.remove('hidden');nextBtn.focus();if(user===correct){score++;feedback.className='feedback ok';feedback.textContent=hintUsed?`〇 正解です！ヒントを使って、「${item.kanji}」を「${item.reading}」と読めました。`:`〇 正解です！「${item.kanji}」は「${item.reading}」です。`;feedback.scrollIntoView({behavior:'smooth',block:'center'})}else{mistakes.push(item);feedback.className='feedback ng';feedback.textContent=`× ちがいます。正解は「${item.reading}」です。`;feedback.scrollIntoView({behavior:'smooth',block:'center'})}}
+function showHint(){if(checked)return;const item=quizItems[currentIndex];hintUsed=true;const first=item.reading.charAt(0);const masked=first+'＿'.repeat(Math.max(item.reading.length-1,1));feedback.className='feedback ok';feedback.textContent=`ヒント：${masked}（${item.reading.length}文字）`;feedback.scrollIntoView({behavior:'smooth',block:'center'});answerInput.focus()}
+function showAnswer(){if(checked)return;const item=quizItems[currentIndex];answerShown=true;checked=true;checkBtn.disabled=true;hintBtn.disabled=true;showAnswerBtn.disabled=true;checkBtn.classList.add('hidden');hintBtn.classList.add('hidden');showAnswerBtn.classList.add('hidden');nextBtn.classList.remove('hidden');nextBtn.focus();mistakes.push(item);feedback.className='feedback ng';feedback.textContent=`答え：${item.reading}`;feedback.scrollIntoView({behavior:'smooth',block:'center'});answerInput.value=item.reading}
 function nextQuestion(){if(!checked)return;currentIndex++;if(currentIndex>=quizItems.length){showResults();return}renderQuestion();answerInput.focus()}
 function showResults(){quizCard.classList.add('hidden');resultCard.classList.remove('hidden');scoreText.textContent=`${quizItems.length}問中 ${score}問正解`;mistakeList.innerHTML='';if(mistakes.length===0){const li=document.createElement('li');li.textContent='全問正解です。すばらしいです。';mistakeList.appendChild(li);retryWrongBtn.disabled=true}else{retryWrongBtn.disabled=false;mistakes.forEach(item=>{const li=document.createElement('li');li.textContent=`${item.kanji} → ${item.reading}`;mistakeList.appendChild(li)})}}
-startBtn.addEventListener('click',startQuizFromSettings);checkBtn.addEventListener('click',checkAnswer);nextBtn.addEventListener('click',nextQuestion);restartBtn.addEventListener('click',()=>{quizCard.classList.add('hidden');resultCard.classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})});retryWrongBtn.addEventListener('click',()=>{if(mistakes.length>0)buildQuiz(shuffle(mistakes))});newQuizBtn.addEventListener('click',()=>{resultCard.classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})});answerInput.addEventListener('keydown',e=>{if(e.key==='Enter'){if(!checked)checkAnswer();else nextQuestion();}});
-</script>
+startBtn.addEventListener('click',startQuizFromSettings);checkBtn.addEventListener('click',checkAnswer);hintBtn.addEventListener('click',showHint);showAnswerBtn.addEventListener('click',showAnswer);nextBtn.addEventListener('click',nextQuestion);restartBtn.addEventListener('click',()=>{quizCard.classList.add('hidden');resultCard.classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})});retryWrongBtn.addEventListener('click',()=>{if(mistakes.length>0)buildQuiz(shuffle(mistakes))});newQuizBtn.addEventListener('click',()=>{resultCard.classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'})});answerInput.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();if(!checked)checkAnswer();}}); </script>
+
 </body>
 </html>
