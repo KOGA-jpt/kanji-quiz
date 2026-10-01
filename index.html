@@ -13,6 +13,7 @@
     button,input,select{font:inherit}.tabBtn,button{border:none;border-radius:12px;padding:12px 16px;cursor:pointer;font-weight:700}.tabBtn.active,.primary{background:var(--accent);color:#fff}.tabBtn:not(.active),.secondary{background:#e5ecf8;color:#1e3a8a}.ghost{background:#eef2f7;color:#334155}
     .panel{display:block}.hidden{display:none !important}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.vocabGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}@media(max-width:700px){.grid,.vocabGrid{grid-template-columns:1fr}.question{font-size:2rem}}
     label{display:block;font-weight:700;margin-bottom:6px} input,select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff}
+    .languageBox{margin-top:14px;margin-bottom:16px;max-width:460px;padding:15px 16px;background:#eef6ff;border:2px solid #b9d7ff;border-radius:14px}.languageBoxTitle{font-weight:800;color:#1e3a8a;font-size:1.05rem;margin-bottom:2px}.languageBoxText{color:#475569;font-size:.94rem;margin-bottom:10px}.languageBox select{border:1.5px solid #8fbdf5;background:#fff}.languageBox .muted{margin-top:6px}
     .vocabItem{border:1px solid var(--border);border-radius:16px;overflow:hidden;background:#fff}.vocabHeader{width:100%;text-align:left;background:var(--soft);color:var(--text);border-radius:0;padding:16px;display:flex;justify-content:space-between;align-items:center;font-size:1.1rem}.vocabHeader span:last-child{color:var(--sub);font-size:.95rem}
     .vocabBody{display:none;padding:16px;border-top:1px solid var(--border)}.vocabItem.open .vocabBody{display:block}.meaningBlock{margin-bottom:10px}.meaningLabel{font-weight:700;color:#1e3a8a;margin-bottom:2px}
     .meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--sub);font-size:.95rem}.questionBox{text-align:center;padding:16px 10px;background:#f8fbff;border:1px solid #dceaff;border-radius:18px;margin:18px 0}.questionLabel{color:var(--sub);font-size:.95rem;margin-bottom:8px}.question{font-size:2.5rem;font-weight:800;letter-spacing:.06em}
@@ -34,7 +35,9 @@
     <div class="card">
       <h2>語彙カード</h2>
       <div class="sub">単語をタップすると、読み・やさしい日本語・選んだ言語の意味が表示されます。</div>
-      <div style="margin-top:14px;margin-bottom:14px;max-width:420px;">
+      <div class="languageBox">
+        <div class="languageBoxTitle">翻訳する言語を選んでください</div>
+        <div class="languageBoxText">自分が使いたい言語を選ぶと、その言語の意味が表示されます。</div>
         <label for="languageSelect">翻訳言語</label>
         <select id="languageSelect">
           <option value="zh">中文（中国語）</option>
@@ -46,7 +49,7 @@
           <option value="en">English（英語）</option>
           <option value="all">すべて表示</option>
         </select>
-        <div class="muted" style="margin-top:5px;">選んだ言語はこの端末に保存されます。</div>
+        <div class="muted">※ 選んだ言語はこの端末に保存されます。</div>
       </div>
       <label for="searchInput">語彙検索</label>
       <input id="searchInput" type="text" placeholder="漢字・読み・意味で検索" />
